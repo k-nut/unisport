@@ -9,15 +9,5 @@
   <body>
 
   </body>
-  <script type="text/javascript" charset="utf-8">
-    $(document).ready(function(){
-      $.getJSON("./htw.json", function(data){
-        _.forEach(data, function(datum){
-          var $header = $("<h1>").text(datum.name[0]).appendTo("body");
-          var $text = $("<p>").text(datum.description).insertAfter($header);
-
-        });
-      });
-    });
-  </script>
+  <script src="./main.js" type="text/javascript" charset="utf-8"></script>
 </html>
