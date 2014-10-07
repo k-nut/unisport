@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE HTML>
+<html ng-app='dashboard'>
   <head>
     <meta charset="utf-8">
     <title>index</title>
@@ -6,13 +7,21 @@
     <script src="./lodash.js" type="text/javascript" charset="utf-8"></script>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-
-
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
+    <script src="./angular.js" type="text/javascript" charset="utf-8"></script>
+    <script src="./app.js" type="text/javascript" charset="utf-8"></script>
+
+
   </head>
-  <body>
+  <body ng-controller='DashboardController as dashboard'>
+    <div ng-repeat='sportsClass in sportsClasses | orderBy: "name" | filter: startsWithA'>
+      <h1> {{ sportsClass.name }} </h1>
+      <p> {{ sportsClass.description }} </p>
+      <div ng-repeat='date in sportsClass.dates'>
+        <p> {{date.day }} </p>
+      </div>
+    </div>
   </body>
-  <script src="./main.js" type="text/javascript" charset="utf-8"></script>
 </html>
