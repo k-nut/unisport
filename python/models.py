@@ -22,16 +22,19 @@ class SportsClass(db.Model):
     last_run = db.Column(db.DateTime)
     name = db.Column(db.String(200), index=True)
     description = db.Column(db.String)
+    url = db.Column(db.String)
 
-    def __init__(self, name, description):
+    def __init__(self, name, description, url):
         self.class_id = random.randint(0, 1000000)
         self.name = name
         self.description = description
+        self.url = url
 
     def __repr__(self):
         return "<SportsClass %s>" % self.name
 
     def to_json(self):
         return {"name" : self.name,
-                "description": self.description
+                "description": self.description,
+                "url": self.url
                }

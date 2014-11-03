@@ -3,15 +3,13 @@
   <head>
     <meta charset="utf-8">
     <title>index</title>
-    <script src="./jquery-2.1.1.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="./lodash.js" type="text/javascript" charset="utf-8"></script>
-    <!-- Latest compiled and minified CSS -->
-    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">-->
-    <!-- Latest compiled and minified JavaScript -->
-    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>-->
+    <script src="./js/jquery-2.1.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="./js/lodash.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
-    <script src="./angular.js" type="text/javascript" charset="utf-8"></script>
-    <script src="./app.js" type="text/javascript" charset="utf-8"></script>
+    <script src="./js/angular.js" type="text/javascript" charset="utf-8"></script>
+    <script src="./js/app.js" type="text/javascript" charset="utf-8"></script>
 
 
   </head>
@@ -22,6 +20,7 @@
     </form>
     <div ng-repeat='sportsClass in sportsClasses | orderBy: "name" '>
       <h1> {{ sportsClass.name }} </h1>
+      <a href="{{ sportsClass.url }}"> {{ sportsClass.url }} </a>
       <p> {{ sportsClass.description }} </p>
       <div ng-repeat='date in sportsClass.dates'>
         <p> {{date.day }} </p>

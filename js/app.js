@@ -1,13 +1,19 @@
 (function(){
-  'use strict';
-  var app = angular.module('dashboard', []);
-  app.controller('DashboardController' , function($scope, $http){
-    $http.get('/json/alle.json')
+  "use strict";
+  var app = angular.module("dashboard", []);
+  app.controller("DashboardController" , function($scope, $http){
+  $scope.serachTerm = "";
+
+    $http.get("http://localhost:5000/")
     .then(function(res){
       $scope.sportsClasses = res.data;
     });
-    $scope.startsWithA = function(sportsClass){
-      return sportsClass.name.startsWith("A");
+
+    $scope.searchClasses = function(){
+      $http.get("http://localhost:5000/s/" + $scope.searchTerm)
+        .then(function(res){
+          $scope.sportsClasses = res.data;
+        });
     };
   });
 })();
