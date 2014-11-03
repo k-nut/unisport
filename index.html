@@ -16,12 +16,17 @@
   <body ng-controller='DashboardController as dashboard'>
     <form ng-submit="searchClasses()">
       <input type="serach" ng-model="searchTerm" placeholder="Suchen..." />
+      <input type="checkbox" id="Mo"><label for="Mo">Montag</label></input>
+      <input type="checkbox" id="Di"><label for="Di">Dienstag</label></input>
+      <input type="checkbox" id="Mi"><label for="Mi">Mittwoch</label></input>
+      <input type="checkbox" id="Do"><label for="Do">Donnerstag</label></input>
+      <input type="checkbox" id="Fr"><label for="Fr">Freitag</label></input>
       <input type="submit">
     </form>
     <div ng-repeat='sportsClass in sportsClasses | orderBy: "name" '>
       <h1> {{ sportsClass.name }} </h1>
       <a href="{{ sportsClass.url }}"> {{ sportsClass.url }} </a>
-      <p> {{ sportsClass.description }} </p>
+      <p style="white-space: pre-line;"> {{ sportsClass.description }} </p>
       <table class="table table-striped">
         <tr>
           <th>Name</th>
