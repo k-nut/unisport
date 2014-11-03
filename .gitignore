@@ -1,1 +1,3 @@
 *.swp
+everything.db
+__pycache__

@@ -22,9 +22,24 @@
       <h1> {{ sportsClass.name }} </h1>
       <a href="{{ sportsClass.url }}"> {{ sportsClass.url }} </a>
       <p> {{ sportsClass.description }} </p>
-      <div ng-repeat='date in sportsClass.dates'>
-        <p> {{date.day }} </p>
-      </div>
+      <table class="table table-striped">
+        <tr>
+          <th>Name</th>
+          <th>Tag</th>
+          <th>Zeit</th>
+          <th>Zeitraum</th>
+          <th>Ort</th>
+          <th>Preis</th>
+        </tr>
+        <tr ng-repeat='course in sportsClass.courses'>
+          <td> {{course.name }} </td>
+          <td> {{course.day }} </td>
+          <td> {{course.time }} </td>
+          <td> {{course.timeframe }} </td>
+          <td> {{course.place }} </td>
+          <td> {{course.price }} </td>
+        </tr>
+      </table>
     </div>
   </body>
 </html>

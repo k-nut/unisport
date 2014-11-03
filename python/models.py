@@ -18,14 +18,15 @@ flask_cors.CORS(app)
 
 class SportsClass(db.Model):
     ''' The represenation of a sportsclass in the database '''
-    class_id = db.Column(db.Integer, primary_key=True)
+    __tablename__ = "sportsclass"
+    id = db.Column(db.Integer, primary_key=True)
     last_run = db.Column(db.DateTime)
     name = db.Column(db.String(200), index=True)
-    description = db.Column(db.String)
+    description = db.Column(db.Text)
     url = db.Column(db.String)
+    courses = db.relationship("Course", backref="sportsclass")
 
     def __init__(self, name, description, url):
-        self.class_id = random.randint(0, 1000000)
         self.name = name
         self.description = description
         self.url = url
@@ -36,5 +37,35 @@ class SportsClass(db.Model):
     def to_json(self):
         return {"name" : self.name,
                 "description": self.description,
-                "url": self.url
+                "url": self.url,
+                "courses": [course.to_json() for course in self.courses]
                }
+
+class Course(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    class_id = db.Column(db.Integer, db.ForeignKey("sportsclass.id"))
+    name = db.Column(db.String)
+    day = db.Column(db.String)
+    place = db.Column(db.String)
+    price = db.Column(db.String)
+    time = db.Column(db.String)
+    timeframe = db.Column(db.String)
+
+    def __init__(self, name, day, place, price, time, timeframe):
+        self.name = name
+        self.day = day
+        self.place = place
+        self.price = price
+        self.time = time
+        self.timeframe = timeframe
+
+
+    def to_json(self):
+        return {"name": self.name,
+                "day": self.day,
+                "place": self.place,
+                "price": self.price,
+                "time": self.time,
+                "timeframe": self.timeframe
+               }
+
