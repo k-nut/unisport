@@ -6,9 +6,9 @@
     <script src="./jquery-2.1.1.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="./lodash.js" type="text/javascript" charset="utf-8"></script>
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">-->
     <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>-->
 
     <script src="./angular.js" type="text/javascript" charset="utf-8"></script>
     <script src="./app.js" type="text/javascript" charset="utf-8"></script>
@@ -16,7 +16,11 @@
 
   </head>
   <body ng-controller='DashboardController as dashboard'>
-    <div ng-repeat='sportsClass in sportsClasses | orderBy: "name" | filter: startsWithA'>
+    <form ng-submit="searchClasses()">
+      <input type="serach" ng-model="searchTerm" placeholder="Suchen..." />
+      <input type="submit">
+    </form>
+    <div ng-repeat='sportsClass in sportsClasses | orderBy: "name" '>
       <h1> {{ sportsClass.name }} </h1>
       <p> {{ sportsClass.description }} </p>
       <div ng-repeat='date in sportsClass.dates'>

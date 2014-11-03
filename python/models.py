@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 from flask import Flask
+import flask_cors
 from flask.ext.sqlalchemy import SQLAlchemy
 
 import random
@@ -12,6 +13,7 @@ path_to_db = "/home/knut/unisport/everything.db"
 app = Flask(__name__, instance_relative_config=True)
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///" + path_to_db
 db = SQLAlchemy(app)
+flask_cors.CORS(app)
 
 
 class SportsClass(db.Model):
