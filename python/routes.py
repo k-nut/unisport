@@ -9,7 +9,7 @@ def main():
 
 @app.route("/s/<query>", methods=["GET"])
 def search(query):
-    sports_classes = SportsClass.query.filter(SportsClass.description.contains(query))
+    sports_classes = SportsClass.query.filter((SportsClass.description.contains(query))|(SportsClass.name.contains(query)))
     if "days" in request.args:
         sports_classes = sports_classes.filter(SportsClass.courses.any(day=request.args.get("days")))
 
