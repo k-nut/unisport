@@ -34,11 +34,11 @@ class SportsClass(db.Model):
     def __repr__(self):
         return "<SportsClass %s>" % self.name
 
-    def to_json(self):
+    def to_dict(self):
         return {"name" : self.name,
                 "description": self.description,
                 "url": self.url,
-                "courses": [course.to_json() for course in self.courses]
+                "courses": [course.to_dict() for course in self.courses]
                }
 
 class Course(db.Model):
@@ -50,22 +50,25 @@ class Course(db.Model):
     price = db.Column(db.String)
     time = db.Column(db.String)
     timeframe = db.Column(db.String)
+    bookable = db.Column(db.String)
 
-    def __init__(self, name, day, place, price, time, timeframe):
+    def __init__(self, name, day, place, price, time, timeframe, bookable):
         self.name = name
         self.day = day
         self.place = place
         self.price = price
         self.time = time
         self.timeframe = timeframe
+        self.bookable = bookable
 
 
-    def to_json(self):
+    def to_dict(self):
         return {"name": self.name,
                 "day": self.day,
                 "place": self.place,
                 "price": self.price,
                 "time": self.time,
-                "timeframe": self.timeframe
+                "timeframe": self.timeframe,
+                "bookable": self.bookable
                }
 
