@@ -49,11 +49,18 @@ class Course(db.Model):
     place = db.Column(db.String)
     price = db.Column(db.String)
     time = db.Column(db.String)
-    timeframe = db.Column(db.String)
+    start_date = db.Column(db.String)
+    end_date = db.Column(db.String)
     bookable = db.Column(db.String)
 
     def __init__(self, name, day, place, price, time, timeframe, bookable):
         self.name = name
+        parts = timeframe.split("-")
+        if len(parts) > 1:
+            self.start_date = parts[0]
+            self.end_date = parts[1]
+        else:
+            self.start_date = self.end_date = parts[0]
         self.day = day
         self.place = place
         self.price = price
@@ -68,7 +75,8 @@ class Course(db.Model):
                 "place": self.place,
                 "price": self.price,
                 "time": self.time,
-                "timeframe": self.timeframe,
+                "startDate": self.start_date,
+                "endDate": self.end_date,
                 "bookable": self.bookable
                }
 
