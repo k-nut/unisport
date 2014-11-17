@@ -14,7 +14,12 @@ def search(query):
                                .join(Course)
     sports_classes = [sports_class.to_dict() for sports_class in sports_classes]
     if "days" in request.args:
-        sports_classes = sports_classes.filter(SportsClass.courses.any(day=request.args.get("days")))
+        days = request.args["days"].split(",")
+        for sports_class in sports_classes:
+            sports_class["courses"] = [course for
+                                       course in sports_class["courses"]
+                                       if course["day"] in days]
+        sports_classes = [sc for sc in sports_classes if len(sc["courses"]) > 0]
 
     if "bookable" in request.args:
         if request.args["bookable"] == "true":

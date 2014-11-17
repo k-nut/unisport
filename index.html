@@ -16,6 +16,10 @@
   <body ng-controller='DashboardController as dashboard'>
     <form ng-submit="searchClasses()">
       <input type="serach" ng-model="searchTerm" placeholder="Suchen..." />
+
+      <label ng-repeat="day in days">
+        {{day.day}}<input type="checkbox" ng-model="selection[$index]" id="{{day.day}}" />
+      </label>
       <select ng-model="bookable">
         <option value="false">Alle Kurse</option>
         <option value="true">Nur buchbare</option>

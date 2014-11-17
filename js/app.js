@@ -4,6 +4,18 @@
   app.controller("DashboardController" , function($scope, $http){
     $scope.serachTerm = "Kicker";
     $scope.bookable = "false";
+    $scope.selection = [];
+    $scope.days = [{day: "Mo", checked: false},
+      {day: "Di", checked: false},
+      {day: "Mi", checked: false},
+      {day: "Do", checked: false},
+      {day: "Fr", checked: false}
+    ];
+    $scope.$watch("selection", function () {
+      angular.forEach($scope.selection, function (value, index) {
+        $scope.days[index].checked = value;
+      });
+    }, true);
 
     $http.get("http://localhost:5000/s/handball")
       .then(function(res){
@@ -15,6 +27,11 @@
         if ($scope.bookable !== "false"){
           parameters.bookable = $scope.bookable;
         }
+        var checkedDays = _.filter($scope.days, function(day){
+          return day.checked === true;
+        }).map(function(day) { return day.day;});
+        parameters.days = checkedDays.join(",");
+
         $http.get("http://localhost:5000/s/" + $scope.searchTerm, {params: parameters})
           .then(function(res){
             $scope.sportsClasses = res.data;

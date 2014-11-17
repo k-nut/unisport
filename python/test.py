@@ -33,5 +33,11 @@ class FlaskrTestCase(unittest.TestCase):
         assert len(classes) == 1
         assert len(classes[0]["courses"]) == 1
 
+    def test_search_with_day_filter(self):
+        response = self.app.get("/s/kicker?days=Mo,Di")
+        classes = json.loads(response.data.decode("utf-8"))
+        assert len(classes) == 1
+        assert len(classes[0]["courses"]) == 1
+
 if __name__ == '__main__':
     unittest.main()
