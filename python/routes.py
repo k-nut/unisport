@@ -1,11 +1,17 @@
-from models import app, SportsClass, Course, db
+from models import app, SportsClass, Course, db, path_to_db
 from flask import send_from_directory, request
 import json
+import os
+import datetime
 
 
 @app.route("/")
 def main():
     return json.dumps([sc.to_dict() for sc in db.session.query(SportsClass).all()])
+
+@app.route("/age")
+def age():
+    return str(datetime.datetime.fromtimestamp(os.path.getmtime(path_to_db)))
 
 @app.route("/s/<query>", methods=["GET"])
 def search(query):

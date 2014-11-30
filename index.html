@@ -14,7 +14,7 @@
 
   </head>
   <body ng-controller='DashboardController as dashboard'>
-    <form ng-submit="searchClasses()">
+    <form ng-submit="searchClasses()" style='display: inline-block'>
       <input type="serach" ng-model="searchTerm" placeholder="Suchen..." />
 
       <label ng-repeat="day in days">
@@ -26,6 +26,7 @@
         <option value="waitingList">Buchbar &amp; Warteliste</option>
       </select>
     </form>
+    <p style='float: right'> Letztes Update: <span id='lastUpadated'>{{lastUpdated}}</span> </p>
     <div ng-repeat='sportsClass in sportsClasses | orderBy: "name" '>
       <h1> {{ sportsClass.name }} </h1>
       <a href="{{ sportsClass.url }}"> {{ sportsClass.url }} </a>

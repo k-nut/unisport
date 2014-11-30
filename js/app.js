@@ -5,6 +5,7 @@
     $scope.serachTerm = "Kicker";
     $scope.bookable = "false";
     $scope.selection = [];
+    $scope.lastUpdated = "";
     $scope.days = [{day: "Mo", checked: false},
       {day: "Di", checked: false},
       {day: "Mi", checked: false},
@@ -20,6 +21,11 @@
     $http.get("http://localhost:5000/s/handball")
       .then(function(res){
         $scope.sportsClasses = res.data;
+      });
+
+    $http.get("http://localhost:5000/age")
+      .then(function(res){
+        $scope.lastUpdated = res.data;
       });
 
       $scope.searchClasses = function(){
