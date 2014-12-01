@@ -10,7 +10,9 @@
       {day: "Di", checked: false},
       {day: "Mi", checked: false},
       {day: "Do", checked: false},
-      {day: "Fr", checked: false}
+      {day: "Fr", checked: false},
+      {day: "Sa", checked: false},
+      {day: "So", checked: false}
     ];
     $scope.$watch("selection", function () {
       angular.forEach($scope.selection, function (value, index) {
@@ -36,7 +38,9 @@
         var checkedDays = _.filter($scope.days, function(day){
           return day.checked === true;
         }).map(function(day) { return day.day;});
-        parameters.days = checkedDays.join(",");
+        if (checkedDays.length > 0){
+          parameters.days = checkedDays.join(",");
+        }
 
         $http.get("http://localhost:5000/s/" + $scope.searchTerm, {params: parameters})
           .then(function(res){
