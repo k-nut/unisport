@@ -2,7 +2,7 @@
 <html ng-app='dashboard'>
   <head>
     <meta charset="utf-8">
-    <title>index</title>
+    <title>Beliner Unisport - Alle Kurse</title>
     <script src="./js/jquery-2.1.1.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="./js/lodash.js" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
@@ -11,22 +11,36 @@
     <script src="./js/angular.js" type="text/javascript" charset="utf-8"></script>
     <script src="./js/app.js" type="text/javascript" charset="utf-8"></script>
 
-
   </head>
   <body ng-controller='DashboardController as dashboard'>
+    <header class="navbar navbar-default">
+      <div class="container">
+        <a class="navbar-brand">Beliner Unisport</a>
+        <nav>
+          <ul class="nav navbar-nav">
+            <li> <a href="#">Über</a> </li>
+            <li> <a href="#">Impressum </a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <div class="container">
     <form ng-submit="searchClasses()" style='display: inline-block'>
       <input type="serach" ng-model="searchTerm" placeholder="Suchen..." />
 
-      <label ng-repeat="day in days">
-        {{day.day}}<input type="checkbox" ng-model="selection[$index]" id="{{day.day}}" />
+      <label ng-repeat="day in days" class="checkbox-inline">
+        <input type="checkbox" ng-model="selection[$index]" id="{{day.day}}" />{{day.day}}
       </label>
       <select ng-model="bookable">
         <option value="false">Alle Kurse</option>
         <option value="true">Nur buchbare</option>
         <option value="waitingList">Buchbar &amp; Warteliste</option>
       </select>
+      <input type="submit" value="Suchen" />
     </form>
+
     <p style='float: right'> Letztes Update: <span id='lastUpadated'>{{lastUpdated}}</span> </p>
+
     <div ng-repeat='sportsClass in sportsClasses | orderBy: "name" '>
       <h1> {{ sportsClass.name }} </h1>
       <a href="{{ sportsClass.url }}"> {{ sportsClass.url }} </a>
@@ -52,5 +66,6 @@
         </tr>
       </table>
     </div>
+  </div>
   </body>
 </html>
