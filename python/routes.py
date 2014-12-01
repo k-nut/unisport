@@ -29,7 +29,7 @@ def search(query):
 
     if "bookable" in request.args:
         if request.args["bookable"] == "true":
-            allowed_states = ["buchen"]
+            allowed_states = ["buchen", "nur über Büro", "Karte kaufen", "anmeldefrei"]
         elif request.args["bookable"] == "waitingList":
             allowed_states = ["Warteliste", "buchen"]
 
