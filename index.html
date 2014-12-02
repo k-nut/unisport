@@ -41,6 +41,7 @@
 
     <p style='float: right'> Letztes Update: <span id='lastUpadated'>{{lastUpdated}}</span> </p>
 
+    <div ng-show="numberOfResults > -1"> {{numberOfResults}} Kurse gefunden </div>
     <div ng-repeat='sportsClass in sportsClasses | orderBy: "name" '>
       <h1> {{ sportsClass.name }} </h1>
       <a href="{{ sportsClass.url }}"> {{ sportsClass.url }} </a>

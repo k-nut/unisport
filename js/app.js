@@ -6,6 +6,7 @@
     $scope.bookable = "false";
     $scope.selection = [];
     $scope.lastUpdated = "";
+    $scope.numberOfResults = -1;
     $scope.days = [{day: "Mo", checked: false},
       {day: "Di", checked: false},
       {day: "Mi", checked: false},
@@ -42,10 +43,11 @@
           parameters.days = checkedDays.join(",");
         }
 
-        $http.get("http://localhost:5000/s/" + $scope.searchTerm, {params: parameters})
-          .then(function(res){
-            $scope.sportsClasses = res.data;
-          });
-      };
+          $http.get("http://localhost:5000/s/" + $scope.searchTerm, {params: parameters})
+            .then(function(res){
+              $scope.sportsClasses = res.data;
+              $scope.numberOfResults = res.data.length;
+            });
+        };
   });
 })();
