@@ -2,11 +2,11 @@
   font-weight: bold;
   color: orange;
 }
-#loadingAnimation{
-  width: 100%;
-  height: 600px;
-  background: hotpink;
+
+a{
+  word-wrap: break-word;
 }
+
 .spinner {
   margin: 100px auto 0;
   width: 70px;
