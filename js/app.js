@@ -1,7 +1,8 @@
 (function(){
   "use strict";
+  var BACKEND_URL = "http://localhost:5000";
   var app = angular.module("dashboard", ['ngSanitize']);
-  app.controller("DashboardController" , function($scope, $http, $sce){
+  app.controller("DashboardController" , function($scope, $http, $sce, $timeout){
     $scope.searchTerm = "Handball";
     $scope.bookable = "false";
     $scope.selection = [];
@@ -21,18 +22,9 @@
       });
     }, true);
 
-    $http.get("http://localhost:5000/s/handball")
-      .then(function(res){
-        if ($scope.searchTerm){
-          _.forEach(res.data, function(datum){
-            datum.description = $sce.trustAsHtml(datum.description.replace(new RegExp("(" + $scope.searchTerm + ")", "gi"), "<span class='highlight'>$1</span>"));
-          });
-        }
-        $scope.sportsClasses = res.data;
-        setTimeout(function(){$(".collapse:first").collapse()}, 500);
-      });
+    $http.get(BACKEND_URL + "/s/handball").then(displayResults);
 
-      $http.get("http://localhost:5000/age")
+      $http.get(BACKEND_URL + "/age")
         .then(function(res){
           $scope.lastUpdated = res.data;
         });
@@ -50,17 +42,21 @@
           }
 
           $scope.loading = true;
-          $http.get("http://localhost:5000/s/" + $scope.searchTerm, {params: parameters})
-            .then(function(res){
-              if ($scope.searchTerm){
-                _.forEach(res.data, function(datum){
-                  datum.description = $sce.trustAsHtml(datum.description.replace(new RegExp("(" + $scope.searchTerm + ")", "gi"), "<span class='highlight'>$1</span>"));
-                });
-              }
-              $scope.sportsClasses = res.data;
-              $scope.numberOfResults = res.data.length;
-              $scope.loading = false;
+          $http.get(BACKEND_URL + "/s/" + $scope.searchTerm, {params: parameters}).then(displayResults);
+        }
+
+        function displayResults(results){
+          if ($scope.searchTerm){
+            _.forEach(results.data, function(datum){
+              datum.description = $sce.trustAsHtml(datum.description.replace(new RegExp("(" + $scope.searchTerm + ")", "gi"), "<span class='highlight'>$1</span>"));
             });
-        };
+          }
+          $scope.sportsClasses = results.data;
+          $scope.numberOfResults = results.data.length;
+          $scope.loading = false;
+          $timeout(function(){$(".collapse:first").collapse()}, 500);
+        }
+
+
   });
 })();
