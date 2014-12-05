@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Berliner Unisport - Alle Kurse</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <script src="./js/jquery-2.1.1.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="./js/lodash.js" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
@@ -55,26 +56,37 @@
         <h1 data-toggle="collapse" ng-href="{{'#' + $index}}" style="cursor: pointer !important;" title="Beschreibung anzeigen"> {{ sportsClass.name }} </h1>
         <a href="{{ sportsClass.url }}"> {{ sportsClass.url }} </a>
         <p style="white-space: pre-line;" class="collapse" ng-bind-html="sportsClass.description" ng-attr-id="{{$index}}"></p>
-        <table class="table table-striped">
-          <tr>
-            <th>Name</th>
-            <th>Tag</th>
-            <th>Zeit</th>
-            <th>Zeitraum</th>
-            <th>Ort</th>
-            <th>Preis</th>
-            <th>Buchbar</th>
-          </tr>
-          <tr ng-repeat='course in sportsClass.courses'>
-            <td> {{course.name }} </td>
-            <td> {{course.day }} </td>
-            <td> {{course.time }} </td>
-            <td> {{course.startDate}}-{{course.endDate}} </td>
-            <td> {{course.place }} </td>
-            <td> {{course.price }} </td>
-            <td> {{course.bookable }} </td>
-          </tr>
-        </table>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <colgroup>
+              <col style="width: 20%"></col>
+              <col style="width: 10%"></col>
+              <col style="width: 10%"></col>
+              <col style="width: 10%"></col>
+              <col style="width: 10%"></col>
+              <col style="width: 10%"></col>
+              <col style="width: 10%"></col>
+            </colgroup>
+            <tr>
+              <th>Name</th>
+              <th>Tag</th>
+              <th>Zeit</th>
+              <th>Zeitraum</th>
+              <th>Ort</th>
+              <th>Preis</th>
+              <th>Buchbar</th>
+            </tr>
+            <tr ng-repeat='course in sportsClass.courses'>
+              <td> {{course.name }} </td>
+              <td> {{course.day }} </td>
+              <td> {{course.time }} </td>
+              <td> {{course.startDate}}-{{course.endDate}} </td>
+              <td> {{course.place }} </td>
+              <td> {{course.price }} </td>
+              <td> {{course.bookable }} </td>
+            </tr>
+          </table>
+        </div>
       </div>
     </div>
 
