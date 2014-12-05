@@ -20,7 +20,7 @@
       <a class="navbar-brand">Berliner Unisport</a>
       <nav>
       <ul class="nav navbar-nav">
-        <li> <a href="#">Über</a> </li>
+        <li> <a href="#about" data-toggle="modal">Über</a> </li>
         <li> <a href="#impressum" data-toggle="modal">Impressum </a></li>
       </ul>
       </nav>
@@ -75,6 +75,30 @@
             <td> {{course.bookable }} </td>
           </tr>
         </table>
+      </div>
+    </div>
+
+
+    <div class="modal fade" id=about>
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3>Über diese Seite</h3>
+          </div>
+          <div class="modal-body">
+            Diese Website vereinigt die Uni-/Hoschulsport Portale von Beuth, FU, HTW, HU und TU. <br />
+            Sie ermöglicht das Durchsuchen aller Kurse, die in Berlin angeboten werden. <br />
+            Die Suchergebnisse sind nicht live, sondern werden in regelmäßigen Abständen aktualisiert (der Aktuelle
+            Stand wird oben rechts angegeben). <br />
+            Was mit dieser Seite nicht geht ist die Buchung. Dafür einfach auf den Link zum entsprechenden Unisportportal
+            ganz oben im Suchergebnis klicken. <br />
+            Und bei Fragen und Anmerkungen einfach fragen: knut+unisport@k-nut.eu
+          </div>
+          <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Schließen</a>
+          </div>
+        </div>
       </div>
     </div>
 
