@@ -22,40 +22,44 @@
       });
     }, true);
 
-    $http.get(BACKEND_URL + "/s/handball").then(displayResults);
+    $http.get(BACKEND_URL + "/classes?name=handball").then(displayResults);
 
-      $http.get(BACKEND_URL + "/age")
-        .then(function(res){
-          $scope.lastUpdated = res.data;
+    $http.get(BACKEND_URL + "/age")
+    .then(function(res){
+      $scope.lastUpdated = res.data;
+    });
+
+    $scope.searchClasses = function(){
+      var parameters = {};
+      if ($scope.bookable !== "false"){
+        parameters.bookable = $scope.bookable;
+      }
+      var checkedDays = _.filter($scope.days, function(day){
+        return day.checked === true;
+      }).map(function(day) { return day.day;});
+      if (checkedDays.length > 0){
+        parameters.days = checkedDays.join(",");
+      }
+
+      if ($scope.searchTerm !== ""){
+        parameters.name = $scope.searchTerm;
+      }
+
+      $scope.loading = true;
+      $http.get(BACKEND_URL + "/classes", {params: parameters}).then(displayResults);
+    }
+
+    function displayResults(results){
+      if ($scope.searchTerm){
+        _.forEach(results.data, function(datum){
+          datum.description = $sce.trustAsHtml(datum.description.replace(new RegExp("(" + $scope.searchTerm + ")", "gi"), "<span class='highlight'>$1</span>"));
         });
-
-        $scope.searchClasses = function(){
-          var parameters = {};
-          if ($scope.bookable !== "false"){
-            parameters.bookable = $scope.bookable;
-          }
-          var checkedDays = _.filter($scope.days, function(day){
-            return day.checked === true;
-          }).map(function(day) { return day.day;});
-          if (checkedDays.length > 0){
-            parameters.days = checkedDays.join(",");
-          }
-
-          $scope.loading = true;
-          $http.get(BACKEND_URL + "/s/" + $scope.searchTerm, {params: parameters}).then(displayResults);
-        }
-
-        function displayResults(results){
-          if ($scope.searchTerm){
-            _.forEach(results.data, function(datum){
-              datum.description = $sce.trustAsHtml(datum.description.replace(new RegExp("(" + $scope.searchTerm + ")", "gi"), "<span class='highlight'>$1</span>"));
-            });
-          }
-          $scope.sportsClasses = results.data;
-          $scope.numberOfResults = results.data.length;
-          $scope.loading = false;
-          $timeout(function(){$(".collapse:first").collapse()}, 500);
-        }
+      }
+      $scope.sportsClasses = results.data;
+      $scope.numberOfResults = results.data.length;
+      $scope.loading = false;
+      $timeout(function(){$(".collapse:first").collapse()}, 500);
+    }
 
 
   });

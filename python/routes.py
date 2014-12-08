@@ -13,11 +13,17 @@ def main():
 def age():
     return str(datetime.datetime.fromtimestamp(os.path.getmtime(path_to_db)))
 
-@app.route("/s/<query>", methods=["GET"])
-def search(query):
-    sports_classes = db.session.query(SportsClass)\
-                               .filter((SportsClass.description.contains(query))|(SportsClass.name.contains(query)))\
-                               .join(Course)
+@app.route("/classes", methods=["GET"])
+def search():
+    if "name" in request.args:
+        print("yes")
+        name = request.args["name"]
+        sports_classes = db.session.query(SportsClass)\
+                                   .filter((SportsClass.description.contains(name))|(SportsClass.name.contains(name)))\
+                                   .join(Course)
+    else:
+        sports_classes = db.session.query(SportsClass).join(Course)
+
     sports_classes = [sports_class.to_dict() for sports_class in sports_classes]
     if "days" in request.args:
         days = request.args["days"].split(",")
