@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html ng-app='dashboard'>
+<html data-ng-app='dashboard'>
   <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# website: http://ogp.me/ns/website#">
     <meta charset="utf-8">
     <meta property="og:title" content="unisport.berlin" />
@@ -22,7 +22,7 @@
 
 
   </head>
-  <body ng-controller='DashboardController as dashboard'>
+  <body data-ng-controller='DashboardController as dashboard'>
     <header class="navbar navbar-default">
     <div class="container">
       <a class="navbar-brand">Berliner Unisport</a>
@@ -35,13 +35,13 @@
     </div>
     </header>
     <div class="container">
-      <form ng-submit="searchClasses()" style='display: inline-block'>
-        <input type="serach" ng-model="searchTerm" placeholder="Suchen..." />
+      <form data-ng-submit="searchClasses()" style='display: inline-block'>
+        <input type="serach" data-ng-model="searchTerm" placeholder="Suchen..." />
 
-        <label ng-repeat="day in days" class="checkbox-inline">
-          <input type="checkbox" ng-model="selection[$index]" id="{{day.day}}" />{{day.day}}
+        <label data-ng-repeat="day in days" class="checkbox-inline">
+          <input type="checkbox" data-ng-model="selection[$index]" id="{{day.day}}" />{{day.day}}
         </label>
-        <select ng-model="bookable">
+        <select data-ng-model="bookable">
           <option value="false">Alle Kurse</option>
           <option value="true">Nur buchbare</option>
           <option value="waitingList">Buchbar &amp; Warteliste</option>
@@ -51,18 +51,18 @@
 
       <p style='float: right'> Letztes Update: <span id='lastUpadated'>{{lastUpdated}}</span> </p>
 
-      <div ng-show="numberOfResults > -1"> {{numberOfResults}} Kurse gefunden </div>
+      <div data-ng-show="numberOfResults > -1"> {{numberOfResults}} Kurse gefunden </div>
 
-      <div class="spinner" ng-show="loading">
+      <div class="spinner" data-ng-show="loading">
         <div class="bounce1"></div>
         <div class="bounce2"></div>
         <div class="bounce3"></div>
       </div>
 
-      <div ng-repeat='sportsClass in sportsClasses | orderBy: "name"' ng-hide="loading">
-        <h1 data-toggle="collapse" ng-href="{{'#' + $index}}" style="cursor: pointer !important;" title="Beschreibung anzeigen"> {{ sportsClass.name }} </h1>
+      <div data-ng-repeat='sportsClass in sportsClasses | orderBy: "name"' data-ng-hide="loading">
+        <h1 data-toggle="collapse" data-ng-href="{{'#' + $index}}" style="cursor: pointer !important;" title="Beschreibung anzeigen"> {{ sportsClass.name }} </h1>
         <a href="{{ sportsClass.url }}"> {{ sportsClass.url }} </a>
-        <p style="white-space: pre-line;" class="collapse" ng-bind-html="sportsClass.description" ng-attr-id="{{$index}}"></p>
+        <p style="white-space: pre-line;" class="collapse" data-ng-bind-html="sportsClass.description" data-ng-attr-id="{{$index}}"></p>
         <div class="table-responsive">
           <table class="table table-striped">
             <colgroup>
@@ -83,7 +83,7 @@
               <th>Preis</th>
               <th>Buchbar</th>
             </tr>
-            <tr ng-repeat='course in sportsClass.courses'>
+            <tr data-ng-repeat='course in sportsClass.courses'>
               <td> {{course.name }} </td>
               <td> {{course.day }} </td>
               <td> {{course.time }} </td>
