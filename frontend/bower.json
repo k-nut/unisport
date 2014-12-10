@@ -1,0 +1,25 @@
+{
+  "name": "unisport",
+  "version": "0.0.1",
+  "homepage": "https://github.com/k-nut/unisport",
+  "authors": [
+    "Knut Hühne <knut@k-nut.eu>"
+  ],
+  "description": "Merge all the Unisport pages!",
+  "main": "js/app.js",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-sanitize": "~1.3.5",
+    "angular": "~1.3.5",
+    "lodash": "~2.4.1",
+    "bootstrap": "~3.3.1"
+  }
+}
