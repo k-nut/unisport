@@ -1,6 +1,6 @@
 (function(){
   "use strict";
-  var BACKEND_URL = "http://localhost:5000";
+  var BACKEND_URL = "http://backend.unisport.berlin";
   var app = angular.module("dashboard", ['ngSanitize']);
   app.controller("DashboardController" , function($scope, $http, $sce, $timeout){
     $scope.searchTerm = "Handball";
@@ -26,7 +26,7 @@
 
     $http.get(BACKEND_URL + "/age")
     .then(function(res){
-      $scope.lastUpdated = res.data;
+      $scope.lastUpdated = moment(res.data).format("YYYY-MM-DD hh:mm");
     });
 
     $scope.searchClasses = function(){
@@ -60,7 +60,5 @@
       $scope.loading = false;
       $timeout(function(){$(".collapse:first").collapse()}, 500);
     }
-
-
   });
 })();
