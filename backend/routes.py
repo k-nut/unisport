@@ -16,7 +16,6 @@ def age():
 @app.route("/classes", methods=["GET"])
 def search():
     if "name" in request.args:
-        print("yes")
         name = request.args["name"]
         sports_classes = db.session.query(SportsClass)\
                                    .filter((SportsClass.description.contains(name))|(SportsClass.name.contains(name)))\
