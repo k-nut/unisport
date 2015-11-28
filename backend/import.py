@@ -1,9 +1,18 @@
 from models import SportsClass, db, Course
 import json
+import os
+
+
+JSON_PATH = os.environ.get('UNISPORT_JSON_PATH')
+DB_PATH = os.environ.get('UNISPORT_DB_PATH')
+
+# delete the old database so that we can start fresh
+if os.path.exists(DB_PATH):
+    os.remove(DB_PATH)
 
 db.create_all()
 
-with open("/home/knut/unisport/alle.json") as infile:
+with open(os.path.join(JSON_PATH, "alle.json")) as infile:
     classes = json.loads(infile.read())
     for sports_class in classes:
         print(sports_class)

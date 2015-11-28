@@ -9,10 +9,9 @@ import random
 import os
 import datetime
 
-path_to_db = os.path.join(os.path.dirname(__file__), '../data/everything.db')
+path_to_db = os.environ.get('UNISPORT_DB_PATH')
 app = Flask(__name__, instance_relative_config=True)
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///" + os.path.abspath(path_to_db)
-print(app.config['SQLALCHEMY_DATABASE_URI'])
 db = SQLAlchemy(app)
 flask_cors.CORS(app)
 

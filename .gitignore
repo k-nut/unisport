@@ -2,3 +2,4 @@
 *.pyc
 everything.db
 __pycache__
+data/json/
