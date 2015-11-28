@@ -2,11 +2,12 @@ from models import app
 import routes
 import unittest
 import json
+import os
 
 class FlaskrTestCase(unittest.TestCase):
 
     def setUp(self):
-        path_to_db = "/home/knut/unisport/test.db"
+        path_to_db = os.environ.get('UNISPORT_TEST_DB_PATH')
         app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///" + path_to_db
         app.config['TESTING'] = True
         self.app = app.test_client()
