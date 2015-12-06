@@ -1,6 +1,6 @@
 (function(){
   "use strict";
-  var BACKEND_URL = "http://backend.unisport.berlin";
+  var BACKEND_URL = "//backend.unisport.berlin";
   var app = angular.module("dashboard", ['ngSanitize']);
   app.controller("DashboardController" , function($scope, $http, $sce, $timeout){
     $scope.searchTerm = "Handball";
