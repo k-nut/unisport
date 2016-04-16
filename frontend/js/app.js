@@ -2,7 +2,7 @@
   "use strict";
   var BACKEND_URL = "//backend.unisport.berlin";
   var app = angular.module("dashboard", ['ngSanitize']);
-  app.controller("DashboardController" , function($scope, $http, $sce, $timeout){
+  app.controller("DashboardController" , function($scope, $http, $sce, $timeout, $window){
     $scope.searchTerm = "Handball";
     $scope.bookable = "false";
     $scope.selection = [];
@@ -47,7 +47,7 @@
 
       $scope.loading = true;
       $http.get(BACKEND_URL + "/classes", {params: parameters}).then(displayResults);
-    }
+    };
 
     function displayResults(results){
       if ($scope.searchTerm){
@@ -58,7 +58,12 @@
       $scope.sportsClasses = results.data;
       $scope.numberOfResults = results.data.length;
       $scope.loading = false;
-      $timeout(function(){$(".collapse:first").collapse()}, 500);
+      $window._paq.push(['trackSiteSearch',
+          $scope.searchTerm,
+          false,
+          $scope.numberOfResults
+      ]);
+      $timeout(function(){$(".collapse:first").collapse();}, 500);
     }
   });
 })();
