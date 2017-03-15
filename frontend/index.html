@@ -10,7 +10,6 @@
 
     <title>Berliner Unisport - Alle Kurse</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <script src="./bower_components/jquery/dist/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="./bower_components/lodash/dist/lodash.min.js" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.min.css">
     <script src="./bower_components/bootstrap/dist/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
@@ -18,10 +17,9 @@
     <script src="./bower_components/angular/angular.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="./bower_components/moment/moment.js" type="text/javascript" charset="utf-8"></script>
     <script src="./bower_components/angular-sanitize/angular-sanitize.js" type="text/javascript" charset="utf-8"></script>
+    <script src="./bower_components/angular-animate/angular-animate.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="./js/app.js" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" href="./css/main.css" type="text/css" media="all" />
-
-
   </head>
   <body data-ng-controller='DashboardController as dashboard'>
     <header class="navbar navbar-default">
@@ -61,9 +59,13 @@
       </div>
 
       <div data-ng-repeat='sportsClass in sportsClasses | orderBy: "name"' data-ng-hide="loading">
-        <h1 data-toggle="collapse" data-ng-href="{{'#' + $index}}" style="cursor: pointer !important;" title="Beschreibung anzeigen"> {{ sportsClass.name }} </h1>
-        <a href="{{ sportsClass.url }}"> {{ sportsClass.url }} </a>
-        <p style="white-space: pre-line;" class="collapse" data-ng-bind-html="sportsClass.description" data-ng-attr-id="{{$index}}"></p>
+        <h1> {{ sportsClass.name }} </h1>
+        <a style="display:block" href="{{ sportsClass.url }}"> {{ sportsClass.url }} </a>
+        <button ng-click="setVisible($index)">Beschreibung anzeigen</button>
+        <p class="details"
+           data-ng-bind-html="sportsClass.description"
+           data-ng-attr-id="{{$index}}"
+           ng-show="detailsVisible === $index"></p>
         <div class="table-responsive">
           <table class="table table-striped">
             <colgroup>
@@ -156,6 +158,18 @@
       </div>
     </div>
 
+  <style>
+     .details.ng-hide-remove {
+      transition: all 0.5s linear;
+    }
+    .details {
+      white-space: pre-line;
+      max-height: 800px;
+    }
+    .details.ng-hide{
+      max-height: 0;
+    }
+  </style>
 
   </body>
 </html>

@@ -1,13 +1,14 @@
 (function(){
   "use strict";
   var BACKEND_URL = "//backend.unisport.berlin";
-  var app = angular.module("dashboard", ['ngSanitize']);
+  var app = angular.module("dashboard", ['ngSanitize', 'ngAnimate']);
   app.controller("DashboardController" , function($scope, $http, $sce, $timeout, $window){
     $scope.searchTerm = "Handball";
     $scope.bookable = "false";
     $scope.selection = [];
     $scope.lastUpdated = "";
     $scope.numberOfResults = -1;
+    $scope.detailsVisible = null;
     $scope.days = [{day: "Mo", checked: false},
       {day: "Di", checked: false},
       {day: "Mi", checked: false},
@@ -29,14 +30,16 @@
       $scope.lastUpdated = moment(res.data).format("YYYY-MM-DD hh:mm");
     });
 
+    $scope.setVisible = function setVisible(index) {
+      $scope.detailsVisible = $scope.detailsVisible !== index ? index : null;
+    };
+
     $scope.searchClasses = function(){
       var parameters = {};
       if ($scope.bookable !== "false"){
         parameters.bookable = $scope.bookable;
       }
-      var checkedDays = _.filter($scope.days, function(day){
-        return day.checked === true;
-      }).map(function(day) { return day.day;});
+      var checkedDays = _.chain($scope.days).filter('checked').map('day').value();
       if (checkedDays.length > 0){
         parameters.days = checkedDays.join(",");
       }
