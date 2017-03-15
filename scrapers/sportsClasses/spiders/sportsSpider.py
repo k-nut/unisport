@@ -18,7 +18,7 @@ def parseDetails(self, response):
         sportsClass = SportsClassItem()
         sportsClass['url'] = response.url
         sportsClass['name'] = response.xpath("//div[@class='bs_head']/text()").extract()[0]
-        sportsClass['description'] = "".join(response.xpath("//div[@class='bs_kursbeschreibung']/descendant::*/text()").extract())
+        sportsClass['description'] = "\n".join(response.css(".bs_kursbeschreibung > p::text").extract())
         hxs = HtmlXPathSelector(response)
         tables = hxs.select("//table[@class='bs_kurse']/tbody/tr")
         dates = []
