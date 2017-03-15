@@ -23,6 +23,13 @@
       });
     }, true);
 
+
+    $http.get(BACKEND_URL + "/classes").then(function(results){
+        $scope.classes = _.chain(results.data).map('name').map(_.trim).uniq().value();
+        console.log( $scope.classes)
+    });
+
+
     $http.get(BACKEND_URL + "/classes?name=handball").then(displayResults);
 
     $http.get(BACKEND_URL + "/age")

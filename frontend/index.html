@@ -34,7 +34,11 @@
     </header>
     <div class="container">
       <form data-ng-submit="searchClasses()" style='display: inline-block'>
-        <input type="search" data-ng-model="searchTerm" placeholder="Suchen..." />
+        <input type="search" list="classes" data-ng-model="searchTerm" placeholder="Suchen...">
+        <datalist id="classes">
+          <option ng-repeat="class in classes">{{class}}</option>
+        </datalist>
+        </input>
 
         <label data-ng-repeat="day in days" class="checkbox-inline">
           <input type="checkbox" data-ng-model="selection[$index]" id="{{day.day}}" />{{day.day}}
