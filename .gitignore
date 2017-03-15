@@ -3,3 +3,8 @@
 everything.db
 __pycache__
 data/json/
+/scrapers/lib/
+/scrapers/bin/
+/scrapers/build/
+/scrapers/include/
+/scrapers/project.egg-info/
