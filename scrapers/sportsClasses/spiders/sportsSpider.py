@@ -14,43 +14,40 @@ def tryExtract(row, selector):
         return 'Keine Angaben'
 
 def parseDetails(self, response):
-    try:
-        sportsClass = SportsClassItem()
-        sportsClass['url'] = response.url
-        sportsClass['name'] = response.xpath("//div[@class='bs_head']/text()").extract()[0]
-        sportsClass['description'] = "\n".join(response.css(".bs_kursbeschreibung > p::text").extract())
-        hxs = HtmlXPathSelector(response)
-        tables = hxs.select("//table[@class='bs_kurse']/tbody/tr")
-        dates = []
-        for row in tables:
-            date = {}
+    sportsClass = SportsClassItem()
+    sportsClass['url'] = response.url
+    sportsClass['name'] = response.xpath("//div[@class='bs_head']/text()").extract_first()
+    sportsClass['description'] = "\n".join(response.css(".bs_kursbeschreibung > p::text").extract())
+    hxs = HtmlXPathSelector(response)
+    tables = hxs.select("//table[@class='bs_kurse']/tbody/tr")
+    dates = []
+    for row in tables:
+        date = {}
 
-            date["name"] = tryExtract(row, "./td[2]/text()")
+        date["name"] = tryExtract(row, "./td[2]/text()")
 
-            date["day"] = tryExtract(row, "./td[3]/text()")
+        date["day"] = tryExtract(row, "./td[3]/text()")
 
-            date["time"] = tryExtract(row, "./td[4]/text()")
+        date["time"] = tryExtract(row, "./td[4]/text()")
 
-            date["place"] = tryExtract(row, "./td[5]/a/text()")
+        date["place"] = tryExtract(row, "./td[5]/a/text()")
 
-            date["timeframe"] = row.select("./td[6]/a/text()").extract()[0]
+        date["timeframe"] = row.select("./td[6]/a/text()").extract_first()
 
-            priceList = row.select("./td[8]/div/text()").extract()
-            if len(priceList) < 1:
-                priceList = row.select("./td[8]/text()").extract()
-            date['price'] = priceList[0]
+        priceList = row.select("./td[8]/div/text()").extract()
+        if len(priceList) < 1:
+            priceList = row.select("./td[8]/text()").extract()
+        date['price'] = priceList[0]
 
-            bookableList = row.select("./td[9]/input/@value")
-            if len(bookableList) > 0:
-                date["bookable"] = row.select("./td[9]/input/@value")[0].extract()
-            else:
-                date["bookable"] = row.select("./td[9]/span/text()").extract()[0]
-
+        bookableList = row.select("./td[9]/input/@value")
+        if len(bookableList) > 0:
+            date["bookable"] = row.select("./td[9]/input/@value")[0].extract()
+        else:
+            date["bookable"] = row.select("./td[9]/span/text()").extract_first()
 
 
-            dates.append(date)
 
-            sportsClass['dates'] = dates
-        return sportsClass
-    except Exception as e:
-        raise CloseSpider(response.url)
+        dates.append(date)
+
+        sportsClass['dates'] = dates
+    return sportsClass
