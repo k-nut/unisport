@@ -19,9 +19,9 @@ def search():
         name = request.args["name"]
         sports_classes = db.session.query(SportsClass)\
                                    .filter((SportsClass.description.contains(name))|(SportsClass.name.contains(name)))\
-                                   .join(Course)
+                                   .all()
     else:
-        sports_classes = db.session.query(SportsClass).join(Course)
+        sports_classes = db.session.query(SportsClass).all()
 
     sports_classes = [sports_class.to_dict() for sports_class in sports_classes]
     if "days" in request.args:
