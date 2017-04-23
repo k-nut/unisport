@@ -13,6 +13,10 @@ def main():
 def age():
     return str(datetime.datetime.fromtimestamp(os.path.getmtime(path_to_db)))
 
+@app.route("/names")
+def names():
+    return json.dumps([sc.name for sc in db.session.query(SportsClass).all()])
+
 @app.route("/classes", methods=["GET"])
 def search():
     if "name" in request.args:
