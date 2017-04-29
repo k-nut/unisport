@@ -1,13 +1,12 @@
 from models import app, SportsClass, Course, db, path_to_db
-from flask import send_from_directory, request
-import json
+from flask import request, jsonify
 import os
 import datetime
 
 
 @app.route("/")
 def main():
-    return json.dumps([sc.to_dict() for sc in db.session.query(SportsClass).all()])
+    return jsonify(data=[sc.to_dict() for sc in db.session.query(SportsClass).all()])
 
 @app.route("/age")
 def age():
@@ -15,7 +14,7 @@ def age():
 
 @app.route("/names")
 def names():
-    return json.dumps([sc.name for sc in db.session.query(SportsClass).all()])
+    return jsonify(data=[sc.name for sc in db.session.query(SportsClass).all()])
 
 @app.route("/classes", methods=["GET"])
 def search():
@@ -48,7 +47,7 @@ def search():
                                        if course["bookable"] in allowed_states]
         sports_classes = [sc for sc in sports_classes if len(sc["courses"]) > 0]
 
-    return json.dumps(sports_classes)
+    return jsonify(data=sports_classes)
 
 
 if __name__ == "__main__":
