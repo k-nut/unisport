@@ -1,55 +1,53 @@
-from models import app, SportsClass, Course, db, path_to_db
+from sqlalchemy.orm import joinedload, subqueryload, contains_eager
+
+from .app import app
+from .models import SportsClass, Course, Location
 from flask import request, jsonify
-import os
-import datetime
 
 
 @app.route("/")
 def main():
-    return jsonify(data=[sc.to_dict() for sc in db.session.query(SportsClass).all()])
+    return jsonify(data=[sc.to_dict() for sc in SportsClass.query.join(SportsClass.courses).options(joinedload(SportsClass.courses)).all()])
 
-@app.route("/age")
-def age():
-    return str(datetime.datetime.fromtimestamp(os.path.getmtime(path_to_db)))
 
 @app.route("/names")
 def names():
-    return jsonify(data=[sc.name for sc in db.session.query(SportsClass).all()])
+    return jsonify(data=[sc.name for sc in SportsClass.query.all()])
+
+
+@app.route("/locations")
+def locations():
+    return jsonify(data=[location.to_dict() for location in Location.query.all()])
+
 
 @app.route("/classes", methods=["GET"])
 def search():
+    query = SportsClass.query.join(SportsClass.courses)
+
     if "name" in request.args:
         name = request.args["name"]
-        sports_classes = db.session.query(SportsClass)\
-                                   .filter((SportsClass.description.contains(name))|(SportsClass.name.contains(name)))\
-                                   .all()
-    else:
-        sports_classes = db.session.query(SportsClass).all()
+        query = query.filter((SportsClass.description.contains(name))|(SportsClass.name.contains(name))) # TODO: should not be case sensitive
+
+    if "location" in request.args:
+        query = query.filter(SportsClass.courses.any(Course.place == request.args["location"]))
+
+    if "days" in request.args:
+        query = query.filter(Course.day.in_(request.args["days"].split(",")))
+
+    if "bookable" in request.args and request.args["bookable"] in ["true", "waitingList"]:
+        bookable_states = ["buchen", "nur über Büro", "Karte kaufen", "anmeldefrei", "buchen 🔒", "Basisangebot", "siehe Text", "Kursdaten", "ohne Anmeldung"]
+        waiting_states = ["Warteliste", "Warteliste 🔒"]
+        if request.args["bookable"] == "true":
+            allowed_states = bookable_states
+        elif request.args["bookable"] == "waitingList":
+            allowed_states = bookable_states + waiting_states
+        query = query.filter(Course.bookable.in_(allowed_states))
+
+    sports_classes = query \
+        .options(contains_eager(SportsClass.courses)) \
+        .all()
 
     sports_classes = [sports_class.to_dict() for sports_class in sports_classes]
-    if "days" in request.args:
-        days = request.args["days"].split(",")
-        for sports_class in sports_classes:
-            sports_class["courses"] = [course for
-                                       course in sports_class["courses"]
-                                       if course["day"] in days]
-        sports_classes = [sc for sc in sports_classes if len(sc["courses"]) > 0]
-
-    if "bookable" in request.args:
-        if request.args["bookable"] == "true":
-            allowed_states = ["buchen", "nur über Büro", "Karte kaufen", "anmeldefrei"]
-        elif request.args["bookable"] == "waitingList":
-            allowed_states = ["Warteliste", "buchen"]
-
-        for sports_class in sports_classes:
-            sports_class["courses"] = [course for
-                                       course in sports_class["courses"]
-                                       if course["bookable"] in allowed_states]
-        sports_classes = [sc for sc in sports_classes if len(sc["courses"]) > 0]
 
     return jsonify(data=sports_classes)
 
-
-if __name__ == "__main__":
-    app.debug = True
-    app.run()
