@@ -81,3 +81,21 @@ class DBTest(unittest.TestCase):
         response = self.app.get("/classes?location=Kicker-Arena")
         classes = response.json['data']
         assert len(classes) == 1
+
+    def test_names(self):
+        with app.app_context():
+            SportsClassFactory.create(name="Kicker")
+            SportsClassFactory.create(name="Judo")
+        rv = self.app.get("/names")
+        assert rv.json == {"data": ["Judo", "Kicker"]}
+
+    def test_names_with_none(self):
+        with app.app_context():
+            SportsClassFactory.create(name="Kicker")
+            SportsClassFactory.create(name=None)
+        rv = self.app.get("/names")
+        assert rv.json == {"data": [None, "Kicker"]}
+
+    def test_names_without_items(self):
+        rv = self.app.get("/names")
+        assert rv.json == {"data": []}

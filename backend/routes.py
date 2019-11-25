@@ -12,7 +12,7 @@ def main():
 
 @app.route("/names")
 def names():
-    return jsonify(data=[sc.name for sc in SportsClass.query.all()])
+    return jsonify(data=[sc[0] for sc in SportsClass.query.with_entities(SportsClass.name).all()])
 
 
 @app.route("/locations")
