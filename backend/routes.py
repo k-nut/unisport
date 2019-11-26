@@ -5,11 +5,6 @@ from .models import SportsClass, Course, Location
 from flask import request, jsonify
 
 
-@app.route("/")
-def main():
-    return jsonify(data=[sc.to_dict() for sc in SportsClass.query.join(SportsClass.courses).options(joinedload(SportsClass.courses)).all()])
-
-
 @app.route("/names")
 def names():
     return jsonify(data=[sc[0] for sc in SportsClass.query.with_entities(SportsClass.name).all()])

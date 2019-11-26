@@ -27,8 +27,8 @@ class DBTest(unittest.TestCase):
             db.session.commit()
             db.session.remove()
 
-    def test_root_route_with_no_resulst(self):
-        rv = self.app.get("/")
+    def test_search_route_with_no_resulst(self):
+        rv = self.app.get("/classes")
         assert rv.json == {"data": []}
 
     def test_simple_search(self):
