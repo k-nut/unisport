@@ -28,8 +28,6 @@ class CourseFactory(factory.alchemy.SQLAlchemyModelFactory):
     place = 'The place'
     price = '10 / 20 / 30 / 40 Euro'
     time = '12:00'
-    # start_date = 'start'
-    # end_date = 'end'
     bookable = 'true'
 
 
@@ -41,3 +39,4 @@ class LocationFactory(factory.alchemy.SQLAlchemyModelFactory):
     name = factory.Faker('address')
     lat = '52.10'
     lon = '13.5'
+    url = factory.Faker('uri')

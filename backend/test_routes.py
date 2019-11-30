@@ -82,6 +82,18 @@ class DBTest(unittest.TestCase):
         classes = response.json['data']
         assert len(classes) == 1
 
+    def test_search_with_location_url(self):
+        with app.app_context():
+            sc = SportsClassFactory.create(name="Kicker")
+            sc2 = SportsClassFactory.create(name="Judo")
+            matching_location = LocationFactory.create(name='Kicker-Arena', url='https://example.org/kicker')
+            other_location = LocationFactory.create(name='Judohalle', url='https://example.org/judo-halle')
+            CourseFactory.create(sports_class_url=sc.url, place=matching_location.name, place_url=matching_location.url)
+            CourseFactory.create(sports_class_url=sc2.url, place=other_location.name, place_url=other_location.url)
+        response = self.app.get("/classes?location_url=https://example.org/kicker")
+        classes = response.json['data']
+        assert len(classes) == 1
+
     def test_names(self):
         with app.app_context():
             SportsClassFactory.create(name="Kicker")

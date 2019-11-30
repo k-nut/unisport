@@ -31,6 +31,7 @@ class Course(db.Model):
     name = db.Column(db.String)
     day = db.Column(db.String)
     place = db.Column(db.String)
+    place_url = Column(String, ForeignKey("location.url"))
     price = db.Column(db.String)
     time = db.Column(db.String)
     bookable = db.Column(db.String)
@@ -49,7 +50,7 @@ class Course(db.Model):
 
 class Location(db.Model):
     __tablename__ = "location"
-    id = Column(Integer, primary_key=True)
+    url = Column(String, primary_key=True)
     name = Column(String)
     lat = Column(Float)
     lon = Column(Float)
@@ -57,5 +58,6 @@ class Location(db.Model):
     def to_dict(self):
         return {"name": self.name,
                 "lat": self.lat,
-                "lon": self.lon
+                "lon": self.lon,
+                "url": self.url
                 }

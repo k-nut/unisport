@@ -26,6 +26,9 @@ def search():
     if "location" in request.args:
         query = query.filter(SportsClass.courses.any(Course.place == request.args["location"]))
 
+    if "location_url" in request.args:
+        query = query.filter(SportsClass.courses.any(Course.place_url == request.args["location_url"]))
+
     if "days" in request.args:
         query = query.filter(Course.day.in_(request.args["days"].split(",")))
 
