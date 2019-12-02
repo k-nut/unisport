@@ -31,7 +31,7 @@ class Course(db.Model):
     name = db.Column(db.String)
     day = db.Column(db.String)
     place = db.Column(db.String)
-    place_url = Column(String, ForeignKey("location.url"))
+    place_url = Column(String)
     price = db.Column(db.String)
     time = db.Column(db.String)
     bookable = db.Column(db.String)
