@@ -20,8 +20,8 @@ def search():
     query = SportsClass.query.join(SportsClass.courses)
 
     if "name" in request.args:
-        name = request.args["name"]
-        query = query.filter((SportsClass.description.contains(name))|(SportsClass.name.contains(name))) # TODO: should not be case sensitive
+        name = "%{}%".format(request.args["name"])
+        query = query.filter((SportsClass.description.ilike(name))|(SportsClass.name.ilike(name)))
 
     if "location" in request.args:
         query = query.filter(SportsClass.courses.any(Course.place == request.args["location"]))
