@@ -33,7 +33,7 @@ def stats():
     SELECT array_to_string(regexp_matches(url, 'https://([\w\-.]+)/'), ';') as domain, count(*) as count
         from class
         group by domain
-    """).all()
+    """)
     for row in classes:
         class_metric.labels(domain=row[0]).set(row[1])
 
@@ -41,7 +41,7 @@ def stats():
          SELECT array_to_string(regexp_matches(url, 'https://([\w\-.]+)/'), ';') as domain, count(*) as count
          from location
          group by domain;
-    """).all()
+    """)
     for row in locations:
         location_metric.labels(domain=row[0]).set(row[1])
 
@@ -49,7 +49,7 @@ def stats():
          SELECT array_to_string(regexp_matches(sports_class_url, 'https://([\w\-.]+)/'), ';') as domain, count(*) as count
          from course
          group by domain;
-    """).all()
+    """)
     for row in courses:
         course_metric.labels(domain=row[0]).set(row[1])
 
