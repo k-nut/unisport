@@ -5,7 +5,7 @@ on:
       - master
   pull_request:
 env:
-  PYTHON_VERSION: 3.10.4
+  PYTHON_VERSION: 3.9.18
 jobs:
   pytest:
     runs-on: ubuntu-latest
