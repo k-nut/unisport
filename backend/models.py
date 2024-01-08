@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Integer, String, Column, Float, ForeignKey
+from sqlalchemy import String, Column, Float, ForeignKey, JSON
+from sqlalchemy.dialects.postgresql import JSONB
 
 db = SQLAlchemy()
 
@@ -61,3 +62,11 @@ class Location(db.Model):
                 "lon": self.lon,
                 "url": self.url
                 }
+
+
+class Search(db.Model):
+    __tablename__ = "search"
+    id = db.Column(db.Integer, primary_key=True)
+    query = Column(JSON)
+    timestamp = Column(db.DateTime)
+    result_count = Column(db.Integer)

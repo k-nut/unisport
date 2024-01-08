@@ -2,6 +2,7 @@ import unittest
 
 from backend.test_factory import SportsClassFactory, CourseFactory, LocationFactory
 from .app import db, app
+from .models import Search
 
 
 class DBTest(unittest.TestCase):
@@ -111,3 +112,27 @@ class DBTest(unittest.TestCase):
     def test_names_without_items(self):
         rv = self.app.get("/names")
         assert rv.json == {"data": []}
+
+    def test_search_records_search(self):
+        with app.app_context():
+            assert db.session.query(Search).count() == 0
+            kicker = SportsClassFactory.create(name="Kicker")
+            SportsClassFactory.create(name="Judo")
+            CourseFactory.create(sports_class_url=kicker.url)
+        self.app.get("/classes?name=Kicker")
+        with app.app_context():
+            assert db.session.query(Search).count() == 1
+            [search] = db.session.query(Search).all()
+            assert search.result_count == 1
+            assert search.query == {"name": "Kicker"}
+
+    def test_search_records_search_with_no_results(self):
+        with app.app_context():
+            assert db.session.query(Search).count() == 0
+            kicker = SportsClassFactory.create(name="Kicker")
+            CourseFactory.create(sports_class_url=kicker.url)
+        self.app.get("/classes?name=Tennis")
+        with app.app_context():
+            [search] = db.session.query(Search).all()
+            assert search.result_count == 0
+            assert search.query == {"name": "Tennis"}

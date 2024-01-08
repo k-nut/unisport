@@ -1,8 +1,11 @@
+import datetime
+import json
+
 from prometheus_client import generate_latest, Gauge, REGISTRY, PROCESS_COLLECTOR, PLATFORM_COLLECTOR
 from sqlalchemy.orm import joinedload, subqueryload, contains_eager
 
 from .app import app
-from .models import SportsClass, Course, Location, db
+from .models import SportsClass, Course, Location, db, Search
 from flask import request, jsonify
 
 # Create metrics for prometheus reporting
@@ -87,6 +90,12 @@ def search():
         .all()
 
     sports_classes = [sports_class.to_dict() for sports_class in sports_classes]
+
+    search_metric = Search(timestamp=datetime.datetime.now(),
+                           query=request.args,
+                           result_count=len(sports_classes))
+    db.session.add(search_metric)
+    db.session.commit()
 
     return jsonify(data=sports_classes)
 
