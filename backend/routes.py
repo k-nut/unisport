@@ -1,6 +1,7 @@
 import datetime
 
 from prometheus_client import generate_latest, Gauge, REGISTRY, PROCESS_COLLECTOR, PLATFORM_COLLECTOR
+from sqlalchemy import text
 from sqlalchemy.orm import contains_eager
 
 from .models import SportsClass, Course, Location, db, Search
@@ -32,29 +33,30 @@ def locations():
 
 @api.route("/metrics")
 def stats():
-    classes = db.engine.execute("""
-    SELECT array_to_string(regexp_matches(url, 'https://([\w\-.]+)/'), ';') as domain, count(*) as count
-        from class
-        group by domain
-    """)
-    for row in classes:
-        class_metric.labels(domain=row[0]).set(row[1])
+    with db.engine.connect() as conn:
+        classes = conn.execute(text(r"""
+        SELECT array_to_string(regexp_matches(url, 'https://([\w\-.]+)/'), ';') as domain, count(*) as count
+            from class
+            group by domain
+        """))
+        for row in classes:
+            class_metric.labels(domain=row[0]).set(row[1])
 
-    locations = db.engine.execute("""
-         SELECT array_to_string(regexp_matches(url, 'https://([\w\-.]+)/'), ';') as domain, count(*) as count
-         from location
-         group by domain;
-    """)
-    for row in locations:
-        location_metric.labels(domain=row[0]).set(row[1])
+        locations = conn.execute(text(r"""
+             SELECT array_to_string(regexp_matches(url, 'https://([\w\-.]+)/'), ';') as domain, count(*) as count
+             from location
+             group by domain;
+        """))
+        for row in locations:
+            location_metric.labels(domain=row[0]).set(row[1])
 
-    courses = db.engine.execute("""
-         SELECT array_to_string(regexp_matches(sports_class_url, 'https://([\w\-.]+)/'), ';') as domain, count(*) as count
-         from course
-         group by domain;
-    """)
-    for row in courses:
-        course_metric.labels(domain=row[0]).set(row[1])
+        courses = conn.execute(text(r"""
+             SELECT array_to_string(regexp_matches(sports_class_url, 'https://([\w\-.]+)/'), ';') as domain, count(*) as count
+             from course
+             group by domain;
+        """))
+        for row in courses:
+            course_metric.labels(domain=row[0]).set(row[1])
 
     return generate_latest()
 
