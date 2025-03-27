@@ -10,25 +10,15 @@ app.config.update({
 })
 
 class DBTest(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        with app.app_context():
-            db.create_all()
-
-    @classmethod
-    def tearDownClass(cls):
-        with app.app_context():
-            db.drop_all()
-
     def setUp(self):
+        with app.app_context():
+             db.create_all()
         self.app = app.test_client()
 
     def tearDown(self):
         with app.app_context():
-            for table in reversed(db.metadata.sorted_tables):
-                db.engine.execute(table.delete())
-            db.session.commit()
             db.session.remove()
+            db.drop_all()
 
     def test_search_route_with_no_resulst(self):
         rv = self.app.get("/classes")
