@@ -232,9 +232,13 @@ wheels = [
 
 [[package]]
 name = "psycopg2"
-version = "2.9.3"
+version = "2.9.10"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/d1/1e/b450599a27b1809bccbd4e369f397cb18dc56b875778d961f9ae180b54b7/psycopg2-2.9.3.tar.gz", hash = "sha256:8e841d1bf3434da985cc5ef13e6f75c8981ced601fd70cc6bf33351b91562981", size = 380611 }
+sdist = { url = "https://files.pythonhosted.org/packages/62/51/2007ea29e605957a17ac6357115d0c1a1b60c8c984951c19419b3474cdfd/psycopg2-2.9.10.tar.gz", hash = "sha256:12ec0b40b0273f95296233e8750441339298e6a572f7039da5b260e3c8b60e11", size = 385672 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/3d/16/4623fad6076448df21c1a870c93a9774ad8a7b4dd1660223b59082dd8fec/psycopg2-2.9.10-cp312-cp312-win32.whl", hash = "sha256:65a63d7ab0e067e2cdb3cf266de39663203d38d6a8ed97f5ca0cb315c73fe067", size = 1025113 },
+    { url = "https://files.pythonhosted.org/packages/66/de/baed128ae0fc07460d9399d82e631ea31a1f171c0c4ae18f9808ac6759e3/psycopg2-2.9.10-cp312-cp312-win_amd64.whl", hash = "sha256:4a579d6243da40a7b3182e0430493dbd55950c493d8c68f4eec0b302f6bbf20e", size = 1163951 },
+]
 
 [[package]]
 name = "pytest"
@@ -351,7 +355,7 @@ requires-dist = [
     { name = "flask-sqlalchemy", specifier = "==2.5.1" },
     { name = "gunicorn", specifier = "==20.0.0" },
     { name = "prometheus-client", specifier = "==0.11.0" },
-    { name = "psycopg2", specifier = "==2.9.3" },
+    { name = "psycopg2", specifier = "==2.9.10" },
     { name = "pytest", specifier = "==8.3.5" },
     { name = "pytest-cov", specifier = "==2.5.1" },
     { name = "sentry-sdk", specifier = "==1.5.8" },
