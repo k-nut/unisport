@@ -15,5 +15,4 @@ dependencies = [
     "pytest==8.3.5",
     "pytest-cov==2.5.1",
     "sentry-sdk[flask]==2.24.1",
-    "sqlalchemy==1.4.2",
 ]
