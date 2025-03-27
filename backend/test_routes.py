@@ -1,15 +1,17 @@
 import unittest
 
 from backend.test_factory import SportsClassFactory, CourseFactory, LocationFactory
-from .app import db, app
-from .models import Search
+from .app import create_app
+from .models import Search, db
 
+app = create_app(database_uri="sqlite://")
+app.config.update({
+     "TESTING": True,
+})
 
 class DBTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite://"
-        app.config['TESTING'] = True
         with app.app_context():
             db.create_all()
 
