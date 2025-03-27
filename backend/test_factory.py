@@ -1,8 +1,6 @@
 import factory
 
-from backend.models import SportsClass, Course, Location
-from backend.app import db
-
+from backend.models import SportsClass, Course, Location, db
 
 class SportsClassFactory(factory.alchemy.SQLAlchemyModelFactory):
     class Meta:
