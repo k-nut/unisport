@@ -11,7 +11,7 @@ class SportsClass(db.Model):
     last_run = db.Column(db.DateTime)
     name = db.Column(db.String(200), index=True)
     description = db.Column(db.Text)
-    url = db.Column(db.String)
+    url = db.Column(db.String, unique=True)
     courses = db.relationship("Course", backref="class")
 
     def __repr__(self):

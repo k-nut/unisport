@@ -12,7 +12,7 @@ sentry_sdk.init(
     traces_sample_rate=0.05
 )
 
-def create_app(database_uri=os.environ.get("DATABASE_URL")):
+def create_app(database_uri = os.environ.get("DATABASE_URL")):
     app = Flask(__name__)
     app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

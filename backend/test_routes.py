@@ -4,9 +4,10 @@ from backend.test_factory import SportsClassFactory, CourseFactory, LocationFact
 from .app import create_app
 from .models import Search, db
 
+
 app = create_app(database_uri="sqlite://")
 app.config.update({
-     "TESTING": True,
+    "TESTING": True,
 })
 
 class DBTest(unittest.TestCase):
@@ -20,7 +21,7 @@ class DBTest(unittest.TestCase):
             db.session.remove()
             db.drop_all()
 
-    def test_search_route_with_no_resulst(self):
+    def test_search_route_with_no_results(self):
         rv = self.app.get("/classes")
         assert rv.json == {"data": []}
 

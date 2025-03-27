@@ -114,15 +114,15 @@ wheels = [
 
 [[package]]
 name = "flask-sqlalchemy"
-version = "2.5.1"
+version = "3.1.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "flask" },
     { name = "sqlalchemy" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/35/f0/39dd2d8e7e5223f78a5206d7020dc0e16718a964acfb3564d89e9798ab9b/Flask-SQLAlchemy-2.5.1.tar.gz", hash = "sha256:2bda44b43e7cacb15d4e05ff3cc1f8bc97936cc464623424102bfc2c35e95912", size = 132750 }
+sdist = { url = "https://files.pythonhosted.org/packages/91/53/b0a9fcc1b1297f51e68b69ed3b7c3c40d8c45be1391d77ae198712914392/flask_sqlalchemy-3.1.1.tar.gz", hash = "sha256:e4b68bb881802dda1a7d878b2fc84c06d1ee57fb40b874d3dc97dabfa36b8312", size = 81899 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/26/2c/9088b6bd95bca539230bbe9ad446737ed391aab9a83aff403e18dded3e75/Flask_SQLAlchemy-2.5.1-py2.py3-none-any.whl", hash = "sha256:f12c3d4cc5cc7fdcc148b9527ea05671718c3ea45d50c7e732cceb33f574b390", size = 17716 },
+    { url = "https://files.pythonhosted.org/packages/1d/6a/89963a5c6ecf166e8be29e0d1bf6806051ee8fe6c82e232842e3aeac9204/flask_sqlalchemy-3.1.1-py3-none-any.whl", hash = "sha256:4ba4be7f419dc72f4efd8802d69974803c37259dd42f3913b0dcf75c9447e0a0", size = 25125 },
 ]
 
 [[package]]
@@ -310,12 +310,13 @@ wheels = [
 
 [[package]]
 name = "sqlalchemy"
-version = "1.4.2"
+version = "2.0.40"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "greenlet" },
+    { name = "greenlet", marker = "platform_machine == 'AMD64' or platform_machine == 'WIN32' or platform_machine == 'aarch64' or platform_machine == 'amd64' or platform_machine == 'ppc64le' or platform_machine == 'win32' or platform_machine == 'x86_64'" },
+    { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/4a/38/312ffbd98c204c4bf28293a3dd4a263579f558bef01ae1b5d81672a3adec/SQLAlchemy-1.4.2.tar.gz", hash = "sha256:6a8e4c2e65028933a6dc8643c8f5a4f295a367131195b3c708634925cb3e8ec1", size = 7464092 }
+sdist = { url = "https://files.pythonhosted.org/packages/68/c3/3f2bfa5e4dcd9938405fe2fab5b6ab94a9248a4f9536ea2fd497da20525f/sqlalchemy-2.0.40.tar.gz", hash = "sha256:d827099289c64589418ebbcaead0145cd19f4e3e8a93919a0100247af245fa00", size = 9664299 }
 
 [[package]]
 name = "typing-extensions"
@@ -348,7 +349,7 @@ requires-dist = [
     { name = "factory-boy", specifier = "==3.3.3" },
     { name = "flask", specifier = "==2.3.2" },
     { name = "flask-cors", specifier = "==4.0.2" },
-    { name = "flask-sqlalchemy", specifier = "==2.5.1" },
+    { name = "flask-sqlalchemy", specifier = "==3.1.1" },
     { name = "gunicorn", specifier = "==23.0.0" },
     { name = "prometheus-client", specifier = "==0.11.0" },
     { name = "psycopg2", specifier = "==2.9.10" },
