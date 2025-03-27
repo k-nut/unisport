@@ -9,7 +9,7 @@ dependencies = [
     "flask==2.3.2",
     "flask-cors==4.0.2",
     "flask-sqlalchemy==2.5.1",
-    "gunicorn==20.0.0",
+    "gunicorn==23.0.0",
     "prometheus-client==0.11.0",
     "psycopg2==2.9.10",
     "pytest==8.3.5",
