@@ -282,15 +282,22 @@ wheels = [
 
 [[package]]
 name = "sentry-sdk"
-version = "1.5.8"
+version = "2.24.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "certifi" },
     { name = "urllib3" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/74/74/82f06055ccbcb05ba84b942346acf39f342fdf3937f2638cb780dac3f125/sentry-sdk-1.5.8.tar.gz", hash = "sha256:38fd16a92b5ef94203db3ece10e03bdaa291481dd7e00e77a148aa0302267d47", size = 111791 }
+sdist = { url = "https://files.pythonhosted.org/packages/f1/ef/4847dcd63e3f3c451cf701a825d21200f1322d46ac97586d5c90a13dfea1/sentry_sdk-2.24.1.tar.gz", hash = "sha256:8ba3c29990fa48865b908b3b9dc5ae7fa7e72407c7c9e91303e5206b32d7b8b1", size = 318124 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/87/54/0a04c906c97073119e4030c9f4d86e8fe70c93aee1b3bc5670257b76eab0/sentry_sdk-1.5.8-py2.py3-none-any.whl", hash = "sha256:32af1a57954576709242beb8c373b3dbde346ac6bd616921def29d68846fb8c3", size = 144758 },
+    { url = "https://files.pythonhosted.org/packages/65/95/91137ffe7a5956496155af5ffbe45ee4ddfa795a569136147e766abd14b1/sentry_sdk-2.24.1-py2.py3-none-any.whl", hash = "sha256:36baa6a1128b9d98d2adc5e9b2f887eff0a6af558fc2b96ed51919042413556d", size = 336945 },
+]
+
+[package.optional-dependencies]
+flask = [
+    { name = "blinker" },
+    { name = "flask" },
+    { name = "markupsafe" },
 ]
 
 [[package]]
@@ -343,7 +350,7 @@ dependencies = [
     { name = "psycopg2" },
     { name = "pytest" },
     { name = "pytest-cov" },
-    { name = "sentry-sdk" },
+    { name = "sentry-sdk", extra = ["flask"] },
     { name = "sqlalchemy" },
 ]
 
@@ -358,7 +365,7 @@ requires-dist = [
     { name = "psycopg2", specifier = "==2.9.10" },
     { name = "pytest", specifier = "==8.3.5" },
     { name = "pytest-cov", specifier = "==2.5.1" },
-    { name = "sentry-sdk", specifier = "==1.5.8" },
+    { name = "sentry-sdk", extras = ["flask"], specifier = "==2.24.1" },
     { name = "sqlalchemy", specifier = "==1.4.2" },
 ]
 
