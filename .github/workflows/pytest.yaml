@@ -9,11 +9,15 @@ env:
 jobs:
   pytest:
     runs-on: ubuntu-latest
+    env:
+      UV_SYSTEM_PYTHON: 1 # Allow uv to run without virtualenv
     steps:
       - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
       - name: Set up Python ${{ env.PYTHON_VERSION }}
         uses: actions/setup-python@v4
         with:
           python-version: ${{ env.PYTHON_VERSION }}
-      - run: pip install -r requirements.txt
+      - run: uv pip install -r requirements.txt
       - run: pytest .
