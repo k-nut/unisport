@@ -1,7 +1,9 @@
 version: 2
 updates:
-  - package-ecosystem: "pip"
-    directory: "/"
+enable-beta-ecosystems: true
+updates:
+  - package-ecosystem: "uv" 
+    directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
     versioning-strategy: lockfile-only
