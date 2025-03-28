@@ -292,6 +292,13 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/65/95/91137ffe7a5956496155af5ffbe45ee4ddfa795a569136147e766abd14b1/sentry_sdk-2.24.1-py2.py3-none-any.whl", hash = "sha256:36baa6a1128b9d98d2adc5e9b2f887eff0a6af558fc2b96ed51919042413556d", size = 336945 },
 ]
 
+[package.optional-dependencies]
+flask = [
+    { name = "blinker" },
+    { name = "flask" },
+    { name = "markupsafe" },
+]
+
 [[package]]
 name = "six"
 version = "1.16.0"
@@ -345,7 +352,7 @@ dependencies = [
     { name = "psycopg2" },
     { name = "pytest" },
     { name = "pytest-cov" },
-    { name = "sentry-sdk" },
+    { name = "sentry-sdk", extra = ["flask"] },
 ]
 
 [package.metadata]
@@ -359,7 +366,7 @@ requires-dist = [
     { name = "psycopg2", specifier = "==2.9.10" },
     { name = "pytest", specifier = "==8.3.5" },
     { name = "pytest-cov", specifier = "==2.5.1" },
-    { name = "sentry-sdk", specifier = "==2.24.1" },
+    { name = "sentry-sdk", extras = ["flask"], specifier = "==2.24.1" },
 ]
 
 [[package]]
