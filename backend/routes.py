@@ -1,22 +1,10 @@
 import datetime
 
-from prometheus_client import generate_latest, Gauge, REGISTRY, PROCESS_COLLECTOR, PLATFORM_COLLECTOR
 from sqlalchemy import text
 from sqlalchemy.orm import contains_eager
 
 from .models import SportsClass, Course, Location, db, Search
 from flask import request, jsonify, Blueprint
-
-# Create metrics for prometheus reporting
-class_metric = Gauge('class_count', 'Class count', ['domain'])
-location_metric = Gauge('location_count', 'Location count', ['domain'])
-course_metric = Gauge('course_count', 'Course count', ['domain'])
-
-# We do not want to expose any of the metrics that the prometheus_client
-# exposes by default so we unregister them here.
-REGISTRY.unregister(PROCESS_COLLECTOR)
-REGISTRY.unregister(PLATFORM_COLLECTOR)
-REGISTRY.unregister(REGISTRY._names_to_collectors['python_gc_objects_collected_total'])
 
 api = Blueprint('api', __name__)
 
@@ -39,26 +27,23 @@ def stats():
             from class
             group by domain
         """))
-        for row in classes:
-            class_metric.labels(domain=row[0]).set(row[1])
+        class_metrics = [f'class_count{{domain="{row[0]}"}} {row[1]}' for row in classes]
 
         locations = conn.execute(text(r"""
              SELECT array_to_string(regexp_matches(url, 'https://([\w\-.]+)/'), ';') as domain, count(*) as count
              from location
              group by domain;
         """))
-        for row in locations:
-            location_metric.labels(domain=row[0]).set(row[1])
+        location_metrics = [f'location_count{{domain="{row[0]}"}} {row[1]}' for row in locations]
 
         courses = conn.execute(text(r"""
              SELECT array_to_string(regexp_matches(sports_class_url, 'https://([\w\-.]+)/'), ';') as domain, count(*) as count
              from course
              group by domain;
         """))
-        for row in courses:
-            course_metric.labels(domain=row[0]).set(row[1])
+        course_metrics = [f'course_count{{domain="{row[0]}"}} {row[1]}' for row in courses]
 
-    return generate_latest()
+    return '\n'.join(class_metrics + location_metrics + course_metrics)
 
 
 @api.route("/classes", methods=["GET"])
