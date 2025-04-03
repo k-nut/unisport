@@ -1,11 +1,14 @@
 import unittest
+import os
 
 from backend.test_factory import create_sports_class, create_course, create_location
 from .app import create_app
 from .models import Search, db
 
-
-app = create_app(database_uri="sqlite://")
+TEST_DATABASE_URL = os.environ.get("TEST_DATABASE_URL")
+if (TEST_DATABASE_URL is None):
+    raise "TEST_DATABASE_URL not set"
+app = create_app(database_uri=TEST_DATABASE_URL)
 app.config.update({
     "TESTING": True,
 })
