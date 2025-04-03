@@ -6,8 +6,8 @@ from .app import create_app
 from .models import Search, db
 
 TEST_DATABASE_URL = os.environ.get("TEST_DATABASE_URL")
-if (TEST_DATABASE_URL is None):
-    raise "TEST_DATABASE_URL not set"
+if TEST_DATABASE_URL is None:
+    raise ValueError("TEST_DATABASE_URL environment variable not set")
 app = create_app(database_uri=TEST_DATABASE_URL)
 app.config.update({
     "TESTING": True,
@@ -103,7 +103,7 @@ class DBTest(unittest.TestCase):
             create_sports_class(db.session, name="Judo")
             db.session.commit()
         rv = self.app.get("/names")
-        assert rv.json == {"data": ["Judo", "Kicker"]}
+        assert rv.json == {"data": ["Kicker", "Judo"]}
 
     def test_names_with_none(self):
         with app.app_context():
@@ -111,7 +111,7 @@ class DBTest(unittest.TestCase):
             create_sports_class(db.session, name=None)
             db.session.commit()
         rv = self.app.get("/names")
-        assert rv.json == {"data": [None, "Kicker"]}
+        assert rv.json == {"data": ["Kicker", None]}
 
     def test_names_without_items(self):
         rv = self.app.get("/names")

@@ -20,6 +20,8 @@ def create_sports_class(session, **kwargs):
     return sports_class
 
 def create_course(session, **kwargs):
+    place_url = create_location(session).url if 'place_url' not in kwargs else kwargs['place_url']
+
     defaults = {
         "sports_class_url": _get_unique_url(),
         "name": "Test Course",
@@ -28,7 +30,7 @@ def create_course(session, **kwargs):
         "price": "10 / 20 / 30 / 40 Euro",
         "time": "12:00",
         "bookable": "true",
-        "place_url": _get_unique_url()
+        "place_url": place_url
     }
     defaults.update(kwargs)
     course = Course(**defaults)
