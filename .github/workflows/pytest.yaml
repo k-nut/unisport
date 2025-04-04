@@ -5,8 +5,23 @@ on:
       - master
   pull_request:
 jobs:
-  pytest:
+  test:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: unisport_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+          
     steps:
       - uses: actions/checkout@v4
 
@@ -17,4 +32,6 @@ jobs:
         run: uv sync --all-extras --dev
 
       - name: Run tests
+        env:
+          TEST_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/unisport_test
         run: uv run pytest
