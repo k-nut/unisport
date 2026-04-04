@@ -11,5 +11,5 @@ dependencies = [
     "gunicorn==25.3.0",
     "psycopg2==2.9.11",
     "pytest==9.0.2",
-    "sentry-sdk[flask]==2.32.0",
+    "sentry-sdk[flask]==2.57.0",
 ]
