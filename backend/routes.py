@@ -48,41 +48,70 @@ def stats():
 
 @api.route("/classes", methods=["GET"])
 def search():
-    query = SportsClass.query.join(SportsClass.courses)
+    query_params = {
+        "name": f"%{request.args.get('name', '')}%",
+        "location": request.args.get("location"),
+        "location_url": request.args.get("location_url"),
+        "days": request.args.get("days", "").split(",") if request.args.get("days") else None,
+        "bookable_states": None
+    }
 
-    if "name" in request.args:
-        name = "%{}%".format(request.args["name"])
-        query = query.filter((SportsClass.description.ilike(name))|(SportsClass.name.ilike(name)))
+    bookable_states = ["buchen", "nur über Büro", "Karte kaufen", "anmeldefrei", "buchen 🔒", "Basisangebot", "siehe Text", "Kursdaten", "ohne Anmeldung"]
+    waiting_states = ["Warteliste", "Warteliste 🔒"]
 
-    if "location" in request.args:
-        query = query.filter(SportsClass.courses.any(Course.place == request.args["location"]))
+    if request.args.get("bookable") == "true":
+        query_params["bookable_states"] = bookable_states
+    elif request.args.get('bookable') == "waitingList":
+        query_params["bookable_states"] = waiting_states + waiting_states
 
-    if "location_url" in request.args:
-        query = query.filter(SportsClass.courses.any(Course.place_url == request.args["location_url"]))
+    sql = """
+    WITH class_data AS (
+        SELECT 
+            c.name,
+            c.description,
+            c.url,
+            json_agg(
+                json_build_object(
+                    'name', co.name,
+                    'day', co.day,
+                    'place', co.place,
+                    'price', co.price,
+                    'time', co.time,
+                    'timeframe', co.timeframe,
+                    'bookable', co.bookable
+                )
+            ) as courses
+        FROM class c
+        JOIN course co ON c.url = co.sports_class_url
+        WHERE (:name IS NULL OR LOWER(c.description) LIKE LOWER(:name) OR LOWER(c.name) LIKE LOWER(:name))
+          AND (:location IS NULL OR co.place = :location)
+          AND (:location_url IS NULL OR co.place_url = :location_url)
+          AND (:days IS NULL OR co.day = ANY(:days))
+          AND (:bookable_states IS NULL OR co.bookable = ANY(:bookable_states))
+        GROUP BY c.name, c.description, c.url
+    )
+    SELECT json_agg(
+            json_build_object(
+                'name', name,
+                'description', description,
+                'url', url,
+                'courses', courses
+            )
+    ) as result
+    FROM class_data;
+    """
 
-    if "days" in request.args:
-        query = query.filter(Course.day.in_(request.args["days"].split(",")))
-
-    if "bookable" in request.args and request.args["bookable"] in ["true", "waitingList"]:
-        bookable_states = ["buchen", "nur über Büro", "Karte kaufen", "anmeldefrei", "buchen 🔒", "Basisangebot", "siehe Text", "Kursdaten", "ohne Anmeldung"]
-        waiting_states = ["Warteliste", "Warteliste 🔒"]
-        if request.args["bookable"] == "true":
-            allowed_states = bookable_states
-        elif request.args["bookable"] == "waitingList":
-            allowed_states = bookable_states + waiting_states
-        query = query.filter(Course.bookable.in_(allowed_states))
-
-    sports_classes = query \
-        .options(contains_eager(SportsClass.courses)) \
-        .all()
-
-    sports_classes = [sports_class.to_dict() for sports_class in sports_classes]
-
-    search_metric = Search(timestamp=datetime.datetime.now(),
-                           query=request.args,
-                           result_count=len(sports_classes))
-    db.session.add(search_metric)
-    db.session.commit()
-
-    return jsonify(data=sports_classes)
+    with db.engine.connect() as conn:
+        result = conn.execute(text(sql), query_params).scalar() or []
+        
+        # Log the search
+        search_metric = Search(
+            timestamp=datetime.datetime.now(),
+            query=request.args,
+            result_count=len(result)
+        )
+        db.session.add(search_metric)
+        db.session.commit()
+        
+        return jsonify(dict(data=result))
 
